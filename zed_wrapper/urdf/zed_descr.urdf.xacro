@@ -22,6 +22,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 <!-- Includes -->
     <xacro:include filename="$(find zed_wrapper)/urdf/include/materials.urdf.xacro" />
+    <xacro:include filename="$(find zed_wrapper)/urdf/zed_gazebo.xacro"/>
 
     <!-- Arguments -->
 
@@ -68,6 +69,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </geometry>
             <material name="${model}_mat" />
         </visual>
+        <collision>
+            <origin xyz="0 0.0175 0" rpy="0 0 0"/>
+            <geometry>
+            <box size="0.02505 0.090 0.025"/>
+            </geometry>
+        </collision>
+        <inertial>
+            <!-- The following are not reliable values, and should not be used for modeling -->
+            <mass value="0.564" />
+            <origin xyz="0 0 0" />
+            <inertia ixx="0.003881243" ixy="0.0" ixz="0.0" iyy="0.000498940" iyz="0.0" izz="0.003879257" />
+        </inertial>
     </link>
 
 <!-- Left Camera -->
@@ -138,4 +151,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
         <link name="$(arg camera_name)_temp_right_link" />
     </xacro:if>
+
+    <xacro:gazebo_zed camera_name="$(arg camera_name)" reference_link="$(arg camera_name)_camera_center" topics_ns="topics_ns" depth_optical_frame="$(arg camera_name)_depth_optical_frame" color_optical_frame="$(arg camera_name)_color_optical_frame" infrared1_optical_frame="$(arg camera_name)_left_ir_optical_frame" infrared2_optical_frame="$(arg camera_name)_right_ir_optical_frame"/>
+
 </robot>

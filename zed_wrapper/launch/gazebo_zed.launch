@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Camera Model and Name -->
+    <arg name="camera_name"           default="zed" /> <!-- The name you want -->
+    <arg name="camera_model"          default="zed" /> <!-- 'zed' or 'zedm' or 'zed2' -->
+
+    <!-- Base frame -->
+    <arg name="base_frame"            default="base_link" />
+
+    <!-- Position respect to base frame (i.e. "base_link) -->
+    <arg name="cam_pos_x"             default="0.0" />
+    <arg name="cam_pos_y"             default="0.0" />
+    <arg name="cam_pos_z"             default="0.0" />
+
+    <!-- Orientation respect to base frame (i.e. "base_link) -->
+    <arg name="cam_roll"              default="0.0" />
+    <arg name="cam_pitch"             default="0.0" />
+    <arg name="cam_yaw"               default="0.0" />
+
+    <arg name="model" default= "$(find zed_wrapper)/urdf/zed_descr.urdf.xacro"/>
+    <arg name="rvizconfig" default="$(find zed_wrapper)/rviz/zed.rviz" />
+
+    <param name="robot_description"
+            command="$(find xacro)/xacro $(arg model) --inorder
+                    camera_name:=$(arg camera_name)
+                    camera_model:=$(arg camera_model)
+                    base_frame:=$(arg base_frame)
+                    cam_pos_x:=$(arg cam_pos_x)
+                    cam_pos_y:=$(arg cam_pos_y)
+                    cam_pos_z:=$(arg cam_pos_z)
+                    cam_roll:=$(arg cam_roll)
+                    cam_pitch:=$(arg cam_pitch)
+                    cam_yaw:=$(arg cam_yaw)"
+    />
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="debug" value="false"/>
+    </include>
+
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model zed" />
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz"   args="-d $(arg rvizconfig)" required="true"  respawn="false"  output="screen" />
+
+</launch>
