@@ -11,7 +11,7 @@ This is the Gazebo URDF model for the Intel RealSense zed camera
     <xacro:arg name="camera_name"   default="zed" />
     <xacro:arg name="base_frame"    default="base_link" />
 
-    <xacro:macro name="gazebo_zed" params="camera_name reference_link topics_ns depth_optical_frame color_optical_frame infrared1_optical_frame infrared2_optical_frame" >
+    <xacro:macro name="gazebo_zed" params="camera_name reference_link topics_ns depth_optical_frame color_optical_frame " >
 
         <!-- Load parameters to model's main link-->
         <xacro:property name="deg_to_rad" value="0.01745329251994329577" />
@@ -55,7 +55,7 @@ This is the Gazebo URDF model for the Intel RealSense zed camera
                 <cameraName>${camera_name}</cameraName>
                 <imageTopicName>/color/image_raw</imageTopicName>
                 <cameraInfoTopicName>/color/camera_info</cameraInfoTopicName>
-                <frameName>$(arg camera_name)_left_camera_optical_frame</frameName>
+                <frameName>${color_optical_frame}</frameName>
                 <hackBaseline>0.07</hackBaseline>
                 <distortionK1>0.0</distortionK1>
                 <distortionK2>0.0</distortionK2>
@@ -96,7 +96,7 @@ This is the Gazebo URDF model for the Intel RealSense zed camera
                 <depthImageTopicName>/${camera_name}/depth/image_raw</depthImageTopicName>
                 <depthImageCameraInfoTopicName>/${camera_name}/depth/camera_info</depthImageCameraInfoTopicName>
                 <pointCloudTopicName>/${camera_name}/depth/points</pointCloudTopicName>
-                <frameName>$(arg camera_name)_left_camera_optical_frame</frameName>
+                <frameName>${depth_optical_frame}</frameName>
                 <pointCloudCutoff>0.3</pointCloudCutoff>
                 <pointCloudCutoffMax>25.0</pointCloudCutoffMax>
                 <distortionK1>0.00000001</distortionK1>

@@ -83,6 +83,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </inertial>
     </link>
 
+        <!-- camera depth joints and links -->
+        <joint name="$(arg camera_name)_depth_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="$(arg camera_name)_camera_center"/>
+            <child link="$(arg camera_name)_depth_frame" />
+        </joint>
+        <link name="$(arg camera_name)_depth_frame"/>
+
+        <joint name="$(arg camera_name)_depth_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}" />
+        <parent link="$(arg camera_name)_depth_frame" />
+        <child link="$(arg camera_name)_depth_optical_frame" />
+        </joint>
+        <link name="$(arg camera_name)_depth_optical_frame"/>
+
+        <!-- camera color joints and links -->
+        <joint name="$(arg camera_name)_color_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="$(arg camera_name)_camera_center"/>
+            <child link="$(arg camera_name)_color_frame" />
+            </joint>
+            <link name="$(arg camera_name)_color_frame"/>
+    
+            <joint name="$(arg camera_name)_color_optical_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}" />
+            <parent link="$(arg camera_name)_color_frame" />
+            <child link="$(arg camera_name)_color_optical_frame" />
+            </joint>
+            <link name="$(arg camera_name)_color_optical_frame"/>
+
+
 <!-- Left Camera -->
     <joint name="$(arg camera_name)_left_camera_joint" type="fixed">
         <parent link="$(arg camera_name)_camera_center"/>
@@ -98,6 +129,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <child link="$(arg camera_name)_left_camera_optical_frame"/>
     </joint>
 
+    
     <link name="$(arg camera_name)_left_camera_optical_frame"/>
 
 <!-- Right Camera -->
@@ -152,6 +184,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         <link name="$(arg camera_name)_temp_right_link" />
     </xacro:if>
 
-    <xacro:gazebo_zed camera_name="$(arg camera_name)" reference_link="$(arg camera_name)_camera_center" topics_ns="topics_ns" depth_optical_frame="$(arg camera_name)_depth_optical_frame" color_optical_frame="$(arg camera_name)_color_optical_frame" infrared1_optical_frame="$(arg camera_name)_left_ir_optical_frame" infrared2_optical_frame="$(arg camera_name)_right_ir_optical_frame"/>
+    <xacro:gazebo_zed camera_name="$(arg camera_name)" reference_link="$(arg camera_name)_camera_center" topics_ns="topics_ns" depth_optical_frame="$(arg camera_name)_depth_optical_frame" color_optical_frame="$(arg camera_name)_color_optical_frame" />
 
 </robot>
